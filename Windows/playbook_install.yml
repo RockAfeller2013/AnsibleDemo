@@ -1,0 +1,20 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Download MSI installer from GitHub
+      win_get_url:
+        url: "https://github.com/your-repo/your-installer/releases/download/v3.3.0/installer.msi"
+        dest: C:\Users\Administrator\Desktop\installer.msi
+        force: yes
+
+    - name: Install MSI using msiexec
+      win_command: >-
+        msiexec /q /i "C:\Users\Administrator\Desktop\installer.msi"
+        /L*v C:\Users\Administrator\Desktop\install.log COMPANY_CODE=EnterCompanyCodeHere CLI_USER=EnterSidHere OFFLINE_INSTALL=1
+      args:
+        chdir: C:\Users\Administrator\Desktop\
+      register: msi_install
+
+    - name: Show installation output
+      debug:
+        msg: "{{ msi_install.stdout }}"
