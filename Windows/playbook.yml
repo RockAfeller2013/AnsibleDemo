@@ -1,0 +1,24 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ensure IIS is installed
+      win_feature:
+        name: Web-Server
+        state: present
+
+    - name: Ensure MySQL is installed
+      win_chocolatey:
+        name: mysql
+        state: present
+
+    - name: Start IIS service
+      win_service:
+        name: W3Svc
+        start_mode: auto
+        state: started
+
+    - name: Start MySQL service
+      win_service:
+        name: MySQL
+        start_mode: auto
+        state: started
