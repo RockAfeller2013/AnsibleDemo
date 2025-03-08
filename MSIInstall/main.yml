@@ -1,0 +1,16 @@
+- name: Copy MSI installer to remote machine
+  win_copy:
+    src: installer_vista_win7_win8-32-3.3.0.953.msi
+    dest: C:\Users\UserFolderName\Desktop\installer_vista_win7_win8-32-3.3.0.953.msi
+
+- name: Install MSI using msiexec
+  win_command: >-
+    msiexec /q /i "C:\Users\UserFolderName\Desktop\installer_vista_win7_win8-32-3.3.0.953.msi"
+    /L*v log.txt COMPANY_CODE=EnterCompanyCodeHere CLI_USER=EnterSidHere OFFLINE_INSTALL=1
+  args:
+    chdir: C:\Users\UserFolderName\Desktop\
+  register: msi_install
+
+- name: Show installation output
+  debug:
+    msg: "{{ msi_install.stdout }}"
