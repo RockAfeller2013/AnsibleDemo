@@ -23,16 +23,16 @@ Log the installation output.
 
 ## Download MSI
 
-To download the MSI from GitHub instead of copying it from local files, update the Ansible role to use win_get_url to fetch the installer before running msiexec.
-Update tasks/main.yml Replace the existing file copy task with win_get_url:
-Use This Role in Your Playbook Ensure your playbook.yml calls the role:
-Run the Playbook: ansible-playbook -i inventory.ini playbook.yml
+- To download the MSI from GitHub instead of copying it from local files, update the Ansible role to use win_get_url to fetch the installer before running msiexec.
+- Update tasks/main.yml Replace the existing file copy task with win_get_url:
+- Use This Role in Your Playbook Ensure your playbook.yml calls the role:
+- Run the Playbook: ansible-playbook -i inventory.ini playbook.yml
 
-Replace inventory.ini with your inventory file.
+- Replace inventory.ini with your inventory file.
 
-Download the MSI from GitHub.
-Install it silently using msiexec.
-Log the installation output.
+- Download the MSI from GitHub.
+- Install it silently using msiexec.
+- Log the installation output.
 
 
 
