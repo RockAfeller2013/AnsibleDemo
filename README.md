@@ -34,6 +34,11 @@ Log the installation output.
 - Install it silently using msiexec.
 - Log the installation output.
 
+choco install git -y
+git clone https://github.com/RockAfeller2013/AnsibleDemo
+vagrant validate
+vagrant up
+
 
 
 ## Add to Galaxy
