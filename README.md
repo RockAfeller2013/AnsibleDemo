@@ -1,11 +1,12 @@
 # Learn Ansible
 
 Just my notes to learn Ansible. 
+
 My ChagGPT -https://chatgpt.com/share/67cc303f-eaa8-800e-8c32-d6a6dd6d1d7b
 
-The Linux and Windows folders has Vagrant files and playbook to test the use of Ansible.
+The Linux and Windows folders has Vagrant files and playbook to test Ansible.
 
-## Create a MSI Install Roler
+## Create a MSI Installer
 
 Navigate to your Ansible roles directory and create a new role: mkdir -p roles/msi_installer/{tasks,files}
 Place your .msi installer inside the files directory: roles/msi_installer/files/installer_vista_win7_win8-32-3.3.0.953.msi
