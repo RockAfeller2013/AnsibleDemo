@@ -1,13 +1,25 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu22.04"  # Change the box if needed
+  config.vm.hostname = "ansibledemo"
+
   config.vm.provider "vmware_desktop" do |v|
     v.memory = 2048
     v.cpus = 2
+    v.gui = true
   end
 
   config.vm.network "private_network", type: "dhcp"
 
+  # Provision with Ansible from the host machine
+  # You must install Ansible locally, see batch script inside this repo
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
+  end
+
+  # Provision with Ansible locally from within the VM
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.install_mode = "pip"
+    ansible.version = "2.2.1.0"
   end
 end
