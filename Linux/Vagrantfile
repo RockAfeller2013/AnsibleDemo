@@ -22,4 +22,10 @@ Vagrant.configure("2") do |config|
     ansible.install_mode = "pip"
     ansible.version = "2.2.1.0"
   end
+
+  # Hook to output IP address after machine is up
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "The IP address of this machine is: $(hostname -I)"
+  SHELL
+
 end
