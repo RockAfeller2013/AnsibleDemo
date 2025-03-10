@@ -8,12 +8,12 @@ The Linux and Windows folders has Vagrant files and playbook to test Ansible.
 
 ## Create a MSI Installer
 
-Navigate to your Ansible roles directory and create a new role: mkdir -p roles/msi_installer/{tasks,files}
-Place your .msi installer inside the files directory: roles/msi_installer/files/installer_vista_win7_win8-32-3.3.0.953.msi
-Create the tasks/main.yml file inside the msi_installer role:
-Now, use this role in your playbook.yml:
-Run the Playbook: ansible-playbook -i inventory.ini playbook.yml
-Replace inventory.ini with your actual inventory file.
+- Navigate to your Ansible roles directory and create a new role: mkdir -p roles/msi_installer/{tasks,files}
+- Place your .msi installer inside the files directory: roles/msi_installer/files/installer_vista_win7_win8-32-3.3.0.953.msi
+- Create the tasks/main.yml file inside the msi_installer role:
+- Now, use this role in your playbook.yml:
+- Run the Playbook: ansible-playbook -i inventory.ini playbook.yml
+- Replace inventory.ini with your actual inventory file.
 
 This will:
 
