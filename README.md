@@ -13,6 +13,8 @@ This folder contains a working Vangrantfile for VMware Workstation and deploying
 ## Linux2 Folder
 
 This folder contains examples of Ansible Galaxy
+To be able to download content from galaxy it is required to have ansible-core>=2.13.9
+Please, check it running the command: ansible --version
 
 - Ansible Galaxy is a repository for sharing, finding, and downloading Ansible roles and collections. It allows users to install pre-built automation content from the community and official sources.
 - Ansible Roles are a way to organize Ansible playbooks into reusable components. A role typically includes tasks, handlers, variables, templates, and other files needed to configure a system.
