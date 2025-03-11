@@ -6,6 +6,10 @@ My ChagGPT -https://chatgpt.com/share/67cc303f-eaa8-800e-8c32-d6a6dd6d1d7b
 
 The Linux and Windows folders has Vagrant files and playbook to test Ansible.
 
+## Linux Folder
+
+This folder contains a working Vangrantfile for VMware Workstation and deploying a example Ansible_local playbook. I prefer to use local, instead of dedploying Ansible on the Hosts to minmise overhead and replications. 
+
 ## Create a MSI Installer
 
 - Navigate to your Ansible roles directory and create a new role: mkdir -p roles/msi_installer/{tasks,files}
