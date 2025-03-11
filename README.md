@@ -10,6 +10,14 @@ The Linux and Windows folders has Vagrant files and playbook to test Ansible.
 
 This folder contains a working Vangrantfile for VMware Workstation and deploying a example Ansible_local playbook. I prefer to use local, instead of dedploying Ansible on the Hosts to minmise overhead and replications. 
 
+## Linux2 Folder
+
+This folder contains examples of Ansible Galaxy
+
+- Ansible Galaxy is a repository for sharing, finding, and downloading Ansible roles and collections. It allows users to install pre-built automation content from the community and official sources.
+- Ansible Roles are a way to organize Ansible playbooks into reusable components. A role typically includes tasks, handlers, variables, templates, and other files needed to configure a system.
+- Ansible Namespaces in Ansible Galaxy is a unique identifier assigned to a user or organization. It ensures that roles and collections are grouped under a specific maintainer, avoiding naming conflicts.
+
 ## Create a MSI Installer
 
 - Navigate to your Ansible roles directory and create a new role: mkdir -p roles/msi_installer/{tasks,files}
