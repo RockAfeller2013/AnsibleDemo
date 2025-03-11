@@ -1,0 +1,49 @@
+# If someone needs to setup a role that apply on VMs that are standalone and also other that are domain joined, I drop a solution here :
+
+# In DEFAULT
+ludus_ad_domain_admin: "{{ defaults.ad_domain_admin }}"
+ludus_ad_domain_admin_password: "{{ defaults.ad_domain_admin_password }}"
+
+ludus_non_domain_admin: "{{ ansible_user }}"
+ludus_non_domain_admin_password: "{{ ansible_password }}"
+
+# In TASKS directory
+- name: Determine if this VM is in a domain
+  ansible.windows.win_shell: |
+    $domainFQDN = (Get-CimInstance -ClassName Win32_ComputerSystem).Domain
+    if ($domainFQDN -eq $null) {
+      $domainFQDN = ""
+    }
+    Write-Output $domainFQDN
+  register: ludus_domain
+
+- name: Saving domain name value
+  ansible.builtin.set_fact:
+    ludus_domain_name: "{{ (ludus_domain.stdout | split('\r\n'))[0] | trim }}"
+
+# Use different credentials for standalone and domain joined VMs
+- name: Install Spice usb redirect plugin (domain)
+  ansible.windows.win_package:
+    path: "{{ ludus_windows_directory }}\\spice\\{{ ludus_spice_windows_usbredirect_name }}"
+    product_id: usb_redirect
+    arguments: /quiet
+    state: present
+  vars:
+    ansible_become: true
+    ansible_become_method: runas
+    ansible_become_user: "{{ ludus_domain_name }}\\{{ ludus_ad_domain_admin }}"
+    ansible_become_password: "{{ ludus_ad_domain_admin_password }}"
+  when: file_usb_redirect_after.stat.exists and ludus_domain_name != "WORKGROUP"
+
+- name: Install Spice usb redirect plugin
+  ansible.windows.win_package:
+    path: "{{ ludus_windows_directory }}\\spice\\{{ ludus_spice_windows_usbredirect_name }}"
+    product_id: usb_redirect
+    arguments: /quiet
+    state: present
+  vars:
+    ansible_become: true
+    ansible_become_method: runas
+    ansible_become_user: "{{ ludus_non_domain_admin }}"
+    ansible_become_password: "{{ ludus_non_domain_admin_password }}"
+  when: file_usb_redirect_after.stat.exists and ludus_domain_name == "WORKGROUP"
