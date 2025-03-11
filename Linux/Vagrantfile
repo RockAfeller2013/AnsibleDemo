@@ -1,31 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :code
 Vagrant.configure("2") do |config|
-  config.vm.box = "centos/7"  # Change the box if needed
-  config.vm.hostname = "ansibledemo"
+    # Use a VMware-compatible box
+    config.vm.box = "bento/ubuntu-20.04"  # This is a VMware-compatible box
+    config.vm.network "private_network", type: "dhcp"
+    config.vm.synced_folder ".", "/vagrant", create: true
+    config.vm.define "ansibledemo"
+    config.vm.hostname = "ansibledemo"
 
-  config.vm.provider "vmware_desktop" do |v|
-    v.memory = 2048
-    v.cpus = 2
-    v.gui = true
+  
+    # Specify the VMware provider
+    config.vm.provider "vmware_workstation" do |v|
+      # v.gui = true  # Enable GUI if needed
+      v.memory = 2048  # Allocate 2GB of RAM
+      v.cpus = 2  # Allocate 2 CPUs
+    end
+  
+    # Install Ansible on the guest machine
+    config.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      apt-get install -y software-properties-common
+      apt-add-repository --yes --update ppa:ansible/ansible
+      apt-get install -y ansible
+      echo "The IP address of this machine is: $(hostname -I)"
+      echo "Python version is: $(python3 --version)"
+      echo "Pip version is: $(pip3 --version)"
+      echo "Ansible version is: $(ansible --version)"
+
+    SHELL
+  
+    # Run the first_playbook.yml playbook
+    config.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "first_playbook.yml"
+    end
   end
-
-  config.vm.network "private_network", type: "dhcp"
-
-  # Provision with Ansible from the host machine
-  # You must install Ansible locally, see batch script inside this repo
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
-  end
-
-  # Provision with Ansible locally from within the VM
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "playbook.yml"
-    ansible.install_mode = "pip"
-    ansible.version = "2.2.1.0"
-  end
-
-  # Hook to output IP address after machine is up
-  config.vm.provision "shell", inline: <<-SHELL
-    echo "The IP address of this machine is: $(hostname -I)"
-  SHELL
-
-end
