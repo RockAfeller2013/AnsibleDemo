@@ -1,0 +1,52 @@
+---
+- name: provision vagrant box with frrouting
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: add frr apt-key
+      ansible.builtin.apt_key:
+        url: https://deb.frrouting.org/frr/keys.asc
+        state: present
+      become: yes
+
+    - name: get host distribution
+      ansible.builtin.command: lsb_release -sc
+      register: release
+
+    - name: add frr repository into source list
+      ansible.builtin.apt_repository:
+        repo: "deb https://deb.frrouting.org/frr {{ release.stdout }} {{ frr_version }}"
+        state: present
+        filename: /etc/apt/sources.list.d/frr
+      vars:
+        frr_version: frr-stable
+      become: yes
+
+    - name: install frr
+      ansible.builtin.apt:
+        name:
+          - frr
+          - frr-pythontools
+        update_cache: yes
+      register: apt_status
+      retries: 100
+      until: apt_status is success or ('Failed to lock apt for exclusive operation' not in apt_status.msg and '/var/lib/dpkg/lock' not in apt_status.msg)
+      become: yes
+
+    - name: edit sysctl.conf for ipv4 forward
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        state: present
+        reload: yes
+      become: yes
+
+    - name: edit sysctl.conf for ipv6 forward
+      ansible.posix.sysctl:
+        name: net.ipv6.conf.all.forwarding
+        value: '1'
+        state: present
+        reload: yes
+      become: yes
