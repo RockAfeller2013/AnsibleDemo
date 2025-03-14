@@ -1,0 +1,12 @@
+---
+- hosts: windows_hosts  # Replace with your target Windows hosts
+  become: true  # Or use 'become: yes'
+  tasks:
+    - name: Download the MSI file
+      win_get_url:
+        url: "http://example.com/path/to/your.msi"  # Replace with the MSI URL
+        dest: "C:\\temp\\your.msi"  # Replace with a local path
+    - name: Install the MSI package
+      win_package:
+        path: "C:\\temp\\your.msi"  # Replace with the local MSI path
+        state: present
