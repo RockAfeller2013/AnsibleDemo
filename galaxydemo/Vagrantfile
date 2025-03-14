@@ -1,5 +1,3 @@
-
-
 Vagrant.configure("2") do |config|
 
   config.vm.define :galaxy1 do | galaxy1 |
