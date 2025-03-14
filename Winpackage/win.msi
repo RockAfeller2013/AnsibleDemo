@@ -1,0 +1,8 @@
+---
+- hosts: windows_hosts
+  become: true
+  tasks:
+    - name: Install the MSI package
+      win_msi:
+        path: "C:\\temp\\your.msi"  # Replace with the local MSI path
+        state: installed
